@@ -11,6 +11,13 @@ void assertSuccess(cl_int condition);
 float** vectorToMatrix(float* vec, int max_x, int max_y);
 float* matrixToVector(float **matrix, int max_x, int max_y);
 
+void CLMath::Free(Matrix m, int size)
+{
+	for(int i = 0; i < size; i++)
+		delete[] m[i];
+	delete[] m;
+}
+
 Matrix CLMath::CreateSquareMatrix(int side_length, int type)
 {
 	Matrix m = new float*[side_length];
@@ -100,9 +107,6 @@ void CLMath::CLSquareMatrixMultiply(float** src_a_matrix, float** src_b_matrix, 
 	assertSuccess(error);
 	dest_d = clCreateBuffer(context, CL_MEM_READ_WRITE, mem_size, NULL, &error);
 	assertSuccess(error);
-	//side_length_d = clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, sizeof(int), side_length, &error);
-	//assertSuccess(error);
-	size_t localWorkSize[2], globalWorkSize[2];
 
 	error = clSetKernelArg(mmult_kernel, 0, sizeof(cl_mem), &src_a_d);
 	assertSuccess(error);
@@ -112,11 +116,6 @@ void CLMath::CLSquareMatrixMultiply(float** src_a_matrix, float** src_b_matrix, 
 	assertSuccess(error);
 	error = clSetKernelArg(mmult_kernel, 3, sizeof(int), &side_length);
 	assertSuccess(error);
-
-	localWorkSize[0] = 16;
-	localWorkSize[1] = 16;
-	globalWorkSize[0] = 1024;
-	globalWorkSize[1] = 1024;
 
 	const size_t s = side_length * side_length;
 
@@ -131,6 +130,13 @@ void CLMath::CLSquareMatrixMultiply(float** src_a_matrix, float** src_b_matrix, 
 
 	dest_h = vectorToMatrix(dest_h_vector, side_length, side_length);
 
+	clReleaseMemObject(src_a_d);
+	clReleaseMemObject(src_b_d);
+	clReleaseMemObject(dest_d);
+	clReleaseContext(context);
+	clReleaseKernel(mmult_kernel);
+	clReleaseProgram(program);
+	clReleaseCommandQueue(queue);
 }
 
 float** vectorToMatrix(float* vec, int max_x, int max_y)

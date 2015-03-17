@@ -10,11 +10,11 @@ int main(void)
 
 	CLMath* math = new CLMath();
 
-	Matrix a = math->CreateSquareMatrix(SIZE, INIT_RANDOM);
-	Matrix b = math->CreateSquareMatrix(SIZE, INIT_RANDOM);
+	Matrix a = math -> CreateSquareMatrix(SIZE, INIT_RANDOM);
+	Matrix b = math -> CreateSquareMatrix(SIZE, INIT_RANDOM);
 	Matrix c;
 
-	math->CLSquareMatrixMultiply(a, b, c, SIZE, DEVICE_TYPE_CPU);
+	math -> CLSquareMatrixMultiply(a, b, c, SIZE, DEVICE_TYPE_GPU);
 
 	cout << "Matrix A:" << endl;
 	math -> PrintMatrix(a, SIZE);
@@ -25,6 +25,9 @@ int main(void)
 	cout << endl << "Result Matrix:" << endl;
 	math -> PrintMatrix(c, SIZE);
 
+	math -> Free(a, SIZE);
+	math -> Free(b, SIZE);
+	math -> Free(c, SIZE);
 
 	return 0;
 

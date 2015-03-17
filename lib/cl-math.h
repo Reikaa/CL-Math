@@ -12,4 +12,5 @@ public:
 	void TestMatrixVectorTransformations(float** in, float** &out, int side_length);
 	Matrix CreateSquareMatrix(int side_length, int type);
 	void PrintMatrix(Matrix m, int side_length);
+	void Free(Matrix m, int size);
 };
