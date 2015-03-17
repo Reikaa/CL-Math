@@ -1,0 +1,1 @@
+g++ lib/cl-math.cpp example.cpp -std=c++11 -lOpenCL
