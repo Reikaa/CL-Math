@@ -33,3 +33,6 @@ Matrix a = math->CreateSquareMatrix(3, INIT_ZEROES);
 a[1][1] = 5;
 ```
 The CreateSquareMatrix function takes a side length as the first argument. Matrices are later accessed using zero-indexing, so a 3x3 matrix generated using CreateSquareMatrix(3, INIT_ZEROES) is valid from [0-2][0-2].
+
+# License
+Released under the MIT License. See file LICENSE for details.
