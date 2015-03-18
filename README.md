@@ -7,6 +7,7 @@ Single-precision floating-point square matrix multiplication is all that is curr
 May be extended to other operations in the future. 
 
 # Usage
+*More documentation is available in the wiki.*
 
 "lib/cl-math.h" must be included in any code you wish to use it in.
 ```c++
